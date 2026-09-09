@@ -17,6 +17,9 @@ export function DataLayersPanel() {
   const variable = useOceanStore((s) => s.variable);
   const setVariable = useOceanStore((s) => s.setVariable);
 
+  const depth = useOceanStore((s) => s.depth);
+  const setDepth = useOceanStore((s) => s.setDepth);
+
   const showModel = useOceanStore((s) => s.showModelLayer);
   const setShowModel = useOceanStore((s) => s.setShowModelLayer);
 
@@ -186,6 +189,31 @@ export function DataLayersPanel() {
                     </div>
                   );
                 })}
+              </div>
+
+              {/* Depth Slider */}
+              <div className={styles.depthSection}>
+                <div className={styles.depthHeader}>
+                  <span className={styles.depthLabel}>Depth</span>
+                  <span className={styles.depthValue}>
+                    {depth === 0 ? 'Surface' : `${depth.toLocaleString()} m`}
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  className={styles.depthSlider}
+                  min={0}
+                  max={4000}
+                  step={50}
+                  value={depth}
+                  onChange={(e) => setDepth(Number(e.target.value))}
+                  aria-label="Depth level"
+                />
+                <div className={styles.depthTicks}>
+                  <span>Surface (0 m)</span>
+                  <span>2000 m</span>
+                  <span>4000 m</span>
+                </div>
               </div>
             </div>
 

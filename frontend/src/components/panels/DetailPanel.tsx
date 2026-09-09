@@ -388,12 +388,22 @@ function RealDepthProfileChart({
         ? argoProfile?.salinity
         : variable === 'chl'
         ? argoProfile?.chlorophyll
-        : argoProfile?.temperature;
+        : null;
 
-    const argoVals = Array.isArray(argoRawVals) ? argoRawVals.filter((v) => typeof v === 'number' && !isNaN(v)) : [];
+    // Pair each observed value WITH ITS EXACT CORRESPONDING DEPTH at the same array index
+    const validArgoPts: { depth: number; val: number }[] = [];
+    if (argoDepths.length > 0 && Array.isArray(argoRawVals)) {
+      for (let i = 0; i < argoDepths.length; i++) {
+        const d = argoDepths[i];
+        const v = argoRawVals[i];
+        if (d != null && !isNaN(d) && v != null && typeof v === 'number' && !isNaN(v)) {
+          validArgoPts.push({ depth: d, val: v });
+        }
+      }
+    }
 
     const hasModelData = modelDepths.length > 0 && modelVals.length > 0;
-    const hasArgoData = argoDepths.length > 0 && argoVals.length > 0;
+    const hasArgoData = validArgoPts.length > 0;
 
     if (!hasModelData && !hasArgoData) {
       ctx.fillStyle = '#64748b';
@@ -403,8 +413,14 @@ function RealDepthProfileChart({
       return;
     }
 
-    const allVals = [...(hasModelData ? modelVals : []), ...(hasArgoData ? argoVals : [])];
-    const allDepths = [...(hasModelData ? modelDepths : []), ...(hasArgoData ? argoDepths : [])];
+    const allVals = [
+      ...(hasModelData ? modelVals : []),
+      ...validArgoPts.map((p) => p.val),
+    ];
+    const allDepths = [
+      ...(hasModelData ? modelDepths : []),
+      ...validArgoPts.map((p) => p.depth),
+    ];
 
     let minV = Math.min(...allVals);
     let maxV = Math.max(...allVals);
@@ -412,7 +428,7 @@ function RealDepthProfileChart({
       minV -= 0.5;
       maxV += 0.5;
     }
-    const maxD = Math.max(...allDepths);
+    const maxD = Math.max(...allDepths, 10);
 
     // 1. Draw Y-Axis Header
     ctx.fillStyle = '#94a3b8';
@@ -517,11 +533,11 @@ function RealDepthProfileChart({
       ctx.shadowBlur = 0;
     }
 
-    // 6. Draw Argo Observation Spline Curve (Orange)
+    // 6. Draw Argo Observation Spline Curve (Orange) with Exact Depths
     if (hasArgoData) {
-      const argoPts = argoVals.map((v, i) => ({
-        x: padL + ((v - minV) / (maxV - minV)) * chartW,
-        y: padT + (argoDepths[i] / maxD) * chartH,
+      const argoPts = validArgoPts.map((pt) => ({
+        x: padL + ((pt.val - minV) / (maxV - minV)) * chartW,
+        y: padT + (pt.depth / maxD) * chartH,
       }));
 
       ctx.beginPath();
@@ -542,6 +558,14 @@ function RealDepthProfileChart({
       ctx.stroke();
       ctx.setLineDash([]);
       ctx.shadowBlur = 0;
+
+      // Draw glowing observation dots
+      argoPts.forEach((pt) => {
+        ctx.fillStyle = '#ff7b3a';
+        ctx.beginPath();
+        ctx.arc(pt.x, pt.y, 3, 0, Math.PI * 2);
+        ctx.fill();
+      });
     }
 
     // 7. Interactive Hover Crosshairs
@@ -625,12 +649,17 @@ function RealDepthProfileChart({
       }
     });
 
+    const targetD = modelProfile.depth[closestIdx];
+    const argoMatch = argoProfile?.depth?.length && argoProfile.temperature?.length
+      ? argoProfile.temperature[argoProfile.depth.findIndex((d) => Math.abs(d - targetD) < 25)] ?? null
+      : null;
+
     setHoverData({
       x: mouseX,
       y: mouseY,
-      depth: modelProfile.depth[closestIdx],
+      depth: targetD,
       modelVal: modelProfile.values[closestIdx] ?? null,
-      argoVal: argoProfile?.temperature?.[closestIdx] ?? null,
+      argoVal: argoMatch,
     });
   };
 
