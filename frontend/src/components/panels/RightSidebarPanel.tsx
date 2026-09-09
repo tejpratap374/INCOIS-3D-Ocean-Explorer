@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useOceanStore } from '@/stores/oceanStore';
 import { colorStopsFor } from '@/utils/colorScales';
+import { generateTimeSteps, normalizeISO, TIME_STEP_INTERVALS } from '@/utils/timeSteps';
 import styles from './RightSidebarPanel.module.css';
 
 // ─── SVG ICONS ─────────────────────────────────────────────────────────────────
@@ -133,6 +134,74 @@ export function RightSidebarPanel() {
   const setPlaying = useOceanStore((s) => s.setPlaying);
   const playbackSpeed = useOceanStore((s) => s.playbackSpeed);
   const setPlaybackSpeed = useOceanStore((s) => s.setPlaybackSpeed);
+  const currentTime = useOceanStore((s) => s.currentTime);
+  const setCurrentTime = useOceanStore((s) => s.setCurrentTime);
+  const availableTimes = useOceanStore((s) => s.availableTimes);
+  const rangeStart = useOceanStore((s) => s.rangeStart);
+  const rangeEnd = useOceanStore((s) => s.rangeEnd);
+  const timeStart = useOceanStore((s) => s.timeStart);
+  const timeEnd = useOceanStore((s) => s.timeEnd);
+  const timeStepInterval = useOceanStore((s) => s.timeStepInterval);
+  const setRangeStart = useOceanStore((s) => s.setRangeStart);
+  const setRangeEnd = useOceanStore((s) => s.setRangeEnd);
+
+  // Generate time steps for playback
+  const times = useMemo(() => {
+    const start = rangeStart || timeStart;
+    const end = rangeEnd || timeEnd;
+    if (start && end) {
+      const generated = generateTimeSteps(start, end, timeStepInterval);
+      if (generated && generated.length > 0) return generated.map(normalizeISO);
+    }
+    if (availableTimes.length > 0) return availableTimes.map(normalizeISO);
+    const now = new Date();
+    now.setUTCHours(12, 0, 0, 0);
+    return Array.from({ length: 7 }, (_, i) => {
+      const d = new Date(now);
+      d.setUTCDate(d.getUTCDate() - (6 - i));
+      return d.toISOString();
+    });
+  }, [availableTimes, rangeStart, rangeEnd, timeStart, timeEnd, timeStepInterval]);
+
+  // Current index in times array
+  const currentIndex = useMemo(() => {
+    const targetMs = new Date(normalizeISO(currentTime)).getTime();
+    const idx = times.findIndex((t) => new Date(t).getTime() === targetMs);
+    return idx >= 0 ? idx : 0;
+  }, [times, currentTime]);
+
+  // Playback loop
+  useEffect(() => {
+    if (!isPlaying || times.length <= 1) return;
+    const intervalMs = 1500 / playbackSpeed;
+    const id = setInterval(() => {
+      const next = currentIndex + 1;
+      if (next >= times.length - 1) {
+        setPlaying(false);
+      } else {
+        setCurrentTime(times[next]);
+      }
+    }, intervalMs);
+    return () => clearInterval(id);
+  }, [isPlaying, times, playbackSpeed, currentIndex, setCurrentTime, setPlaying]);
+
+  const stepBack = () => {
+    if (currentIndex > 0) setCurrentTime(times[currentIndex - 1]);
+  };
+
+  const stepForward = () => {
+    if (currentIndex < times.length - 1) setCurrentTime(times[currentIndex + 1]);
+  };
+
+  const formatDate = (iso: string) => {
+    const d = new Date(normalizeISO(iso));
+    return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  };
+
+  const formatTime = (iso: string) => {
+    const d = new Date(normalizeISO(iso));
+    return d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' });
+  };
 
   const variableDefaults: Record<string, { min: number; max: number; unit: string }> = {
     temperature: { min: 0, max: 30, unit: '°C' },
@@ -351,29 +420,49 @@ export function RightSidebarPanel() {
               <div className={styles.timeInputBox}>
                 <span className={styles.inputLabel}>Start Date</span>
                 <div className={styles.inputInner}>
-                  <span>01 Sep 2025</span>
+                  <span>{times.length > 0 ? formatDate(times[0]) : '—'}</span>
                   <CalendarIcon className={styles.inputInnerIcon} />
                 </div>
               </div>
               <div className={styles.timeInputBox}>
                 <span className={styles.inputLabel}>End Date</span>
                 <div className={styles.inputInner}>
-                  <span>30 Sep 2025</span>
+                  <span>{times.length > 0 ? formatDate(times[times.length - 1]) : '—'}</span>
                   <CalendarIcon className={styles.inputInnerIcon} />
                 </div>
               </div>
             </div>
 
+            {/* Current time display */}
+            <div className={styles.currentTimeDisplay}>
+              <span className={styles.currentTimeLabel}>{formatDate(currentTime)}</span>
+              <span className={styles.currentTimeValue}>{formatTime(currentTime)} UTC</span>
+            </div>
+
             {/* Range Slider */}
             <div className={styles.sliderWrap}>
               <span className={styles.sliderArrow}>‹</span>
-              <input type="range" min="0" max="100" defaultValue="60" className={styles.timeRangeInput} />
+              <input
+                type="range"
+                min={0}
+                max={Math.max(0, times.length - 1)}
+                value={currentIndex}
+                onChange={(e) => setCurrentTime(times[parseInt(e.target.value)])}
+                className={styles.timeRangeInput}
+              />
               <span className={styles.sliderArrow}>›</span>
             </div>
 
             {/* Playback Control Bar */}
             <div className={styles.playRow}>
-              <button className={styles.playBtn} title="Step Back">|◄</button>
+              <button
+                className={styles.playBtn}
+                title="Step Back"
+                onClick={stepBack}
+                disabled={currentIndex === 0}
+              >
+                |◄
+              </button>
               <button
                 className={`${styles.playBtn} ${styles.playPrimary}`}
                 onClick={() => setPlaying(!isPlaying)}
@@ -381,7 +470,14 @@ export function RightSidebarPanel() {
               >
                 {isPlaying ? '⏸' : '▶'}
               </button>
-              <button className={styles.playBtn} title="Step Forward">►|</button>
+              <button
+                className={styles.playBtn}
+                title="Step Forward"
+                onClick={stepForward}
+                disabled={currentIndex >= times.length - 1}
+              >
+                ►|
+              </button>
 
               <select
                 className={styles.speedSelect}
