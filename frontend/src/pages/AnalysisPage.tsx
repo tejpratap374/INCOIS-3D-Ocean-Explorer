@@ -782,10 +782,10 @@ function ModernDepthProfileChart({ result, unit }: { result: ComparisonResult; u
     });
     ctx.stroke();
 
-    // Observation Profile Curve & Dots (Emerald Green)
+    // Observation Profile Curve & Dots (Emerald Green Dotted Line)
     ctx.strokeStyle = '#00e676';
-    ctx.lineWidth = 2;
-    ctx.setLineDash([3, 3]);
+    ctx.lineWidth = 1.2;
+    ctx.setLineDash([2, 3]);
     ctx.beginPath();
     sortedOvs.forEach((val, i) => {
       const x = plotLeft + ((val - minVal) / valRange) * plotWidth;
@@ -802,7 +802,7 @@ function ModernDepthProfileChart({ result, unit }: { result: ComparisonResult; u
 
       ctx.fillStyle = '#00e676';
       ctx.beginPath();
-      ctx.arc(x, y, 4, 0, Math.PI * 2);
+      ctx.arc(x, y, 2.5, 0, Math.PI * 2);
       ctx.fill();
     });
 

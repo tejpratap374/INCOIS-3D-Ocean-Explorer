@@ -533,7 +533,7 @@ function RealDepthProfileChart({
       ctx.shadowBlur = 0;
     }
 
-    // 6. Draw Argo Observation Spline Curve (Orange) with Exact Depths
+    // 6. Draw Argo Observation Spline Curve (Thin Orange Dotted Line)
     if (hasArgoData) {
       const argoPts = validArgoPts.map((pt) => ({
         x: padL + ((pt.val - minV) / (maxV - minV)) * chartW,
@@ -542,10 +542,9 @@ function RealDepthProfileChart({
 
       ctx.beginPath();
       ctx.strokeStyle = '#ff7b3a';
-      ctx.lineWidth = 2.5;
-      ctx.setLineDash([4, 3]);
-      ctx.shadowColor = '#ff7b3a';
-      ctx.shadowBlur = 6;
+      ctx.lineWidth = 1.0; // Ultra-thin stroke width
+      ctx.setLineDash([2, 3]); // Fine delicate dotted line
+      ctx.shadowBlur = 0;
 
       argoPts.forEach((pt, i) => {
         if (i === 0) ctx.moveTo(pt.x, pt.y);
@@ -557,13 +556,12 @@ function RealDepthProfileChart({
       });
       ctx.stroke();
       ctx.setLineDash([]);
-      ctx.shadowBlur = 0;
 
-      // Draw glowing observation dots
+      // Draw delicate observation dots
       argoPts.forEach((pt) => {
         ctx.fillStyle = '#ff7b3a';
         ctx.beginPath();
-        ctx.arc(pt.x, pt.y, 3, 0, Math.PI * 2);
+        ctx.arc(pt.x, pt.y, 1.8, 0, Math.PI * 2);
         ctx.fill();
       });
     }

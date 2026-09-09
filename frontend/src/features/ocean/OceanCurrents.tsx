@@ -4,6 +4,7 @@ import { lonLatToVec3 } from '@/utils/geo';
 import * as THREE from 'three';
 
 const EARTH_RADIUS = 1.0;
+const CURRENTS_RADIUS = 1.002; // slightly above variable layer (1.0015)
 const ARROW_SCALE = 0.012; // scaled for globe view
 
 export function OceanCurrents() {
@@ -16,7 +17,7 @@ export function OceanCurrents() {
     const maxSpeed = Math.max(...vectorField.vectors.map((v) => v.speed), 0.001);
     return vectorField.vectors.slice(0, 600).map((v) => {
       // Position arrow at sphere surface
-      const pos = lonLatToVec3(v.lon, v.lat, EARTH_RADIUS + 0.001);
+      const pos = lonLatToVec3(v.lon, v.lat, CURRENTS_RADIUS);
       const speed = Math.min(v.speed / maxSpeed, 1.0);
       const angle = Math.atan2(v.u, v.v);
       const len = speed * ARROW_SCALE;
