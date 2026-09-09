@@ -1,0 +1,745 @@
+.wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-panel);
+  border-top: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+  height: var(--bottom-panel-h);
+  box-sizing: border-box;
+  min-width: 0;
+  overflow: visible;
+}
+
+/* Close button */
+.closeBtn {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.closeBtn:hover {
+  background: var(--bg-hover);
+  color: var(--accent-primary);
+  border-color: var(--accent-primary);
+}
+
+.closeBtn:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* Left playback controls: Play + Previous */
+.leftControls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+/* Main timeline - flexible center */
+.timeline {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.sliderWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: var(--space-1);
+}
+
+.slider {
+  position: relative;
+  width: 100%;
+  height: 28px;
+}
+
+.sliderInput {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: transparent;
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+  margin-top: 11px;
+  z-index: 2;
+  position: relative;
+}
+
+.sliderInput::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  border: 2px solid var(--bg-primary);
+  cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  margin-top: -5px;
+  box-shadow: 0 2px 6px rgba(0, 200, 255, 0.35);
+}
+
+.sliderInput::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 0 3px var(--accent-primary-muted), 0 2px 10px rgba(0, 200, 255, 0.35);
+}
+
+.sliderInput::-webkit-slider-thumb:active {
+  transform: scale(1.25);
+}
+
+.sliderInput::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  border: 2px solid var(--bg-primary);
+  cursor: pointer;
+}
+
+.sliderInput:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 4px;
+}
+
+.sliderInput:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.sliderInput:disabled::-webkit-slider-thumb {
+  background: var(--text-tertiary);
+  cursor: not-allowed;
+}
+
+/* Progress track - active portion */
+.progressTrack {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 6px;
+  background: var(--accent-primary);
+  border-radius: 3px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Timeline ticks / date labels */
+.ticks {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 8px; /* offset for thumb radius */
+  width: 100%;
+  margin-top: var(--space-1);
+}
+
+.tickLabel {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  white-space: nowrap;
+  cursor: pointer;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-xs);
+  transition: color var(--transition-fast), background var(--transition-fast);
+}
+
+.tickLabel:hover {
+  color: var(--text-primary);
+  background: var(--bg-hover);
+}
+
+/* Current date/time display above thumb */
+.currentTimeDisplay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  pointer-events: none;
+}
+
+.currentTimeLabel {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--accent-primary);
+  white-space: nowrap;
+  text-shadow: 0 0 8px var(--accent-primary-muted);
+}
+
+.currentTimeValue {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  background: var(--bg-tertiary);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+}
+
+/* Right controls: Next */
+.rightControls {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Play button */
+.playBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--accent-primary-muted);
+  color: var(--accent-primary);
+  border: 1px solid var(--border-active);
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.playBtn:hover {
+  background: var(--accent-primary);
+  color: var(--text-on-accent);
+}
+
+.playBtn.playing {
+  background: var(--accent-primary);
+  color: var(--text-on-accent);
+  box-shadow: 0 0 0 2px var(--accent-primary-muted);
+}
+
+.playBtn:active {
+  transform: scale(0.92);
+}
+
+.playBtn:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* Nav buttons (Previous/Next) */
+.navBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid transparent;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.navBtn:hover {
+  color: var(--text-primary);
+  background: var(--bg-hover);
+  border-color: var(--border-default);
+}
+
+.navBtn:active {
+  background: var(--bg-pressed);
+}
+
+.navBtn:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* Date range group with popup */
+.dateRangeGroup {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.dateRangeBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-default);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  min-width: 160px;
+  justify-content: center;
+}
+
+.dateRangeBtn:hover {
+  color: var(--text-primary);
+  background: var(--bg-hover);
+  border-color: var(--border-active);
+}
+
+.dateRangeBtn.active {
+  color: var(--accent-primary);
+  background: var(--accent-primary-muted);
+  border-color: var(--accent-primary);
+}
+
+.dateRangeBtn:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* Date range popup */
+.dateRangePopup {
+  position: absolute;
+  bottom: calc(100% + var(--space-2));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2000;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-elevated), var(--shadow-bezel);
+  padding: var(--space-3);
+  min-width: 260px;
+  animation: popupFadeIn var(--transition-fast);
+}
+
+@keyframes popupFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.dateRangeContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.dateRangeRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.dateRangeLabel {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-label);
+  min-width: 40px;
+  flex-shrink: 0;
+}
+
+.dateRangeInput {
+  flex: 1;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-2);
+  outline: none;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.dateRangeInput:hover {
+  border-color: var(--border-active);
+  background: var(--bg-hover);
+}
+
+.dateRangeInput:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 2px var(--accent-primary-muted);
+}
+
+.dateRangeActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
+}
+
+.dateRangeBtnSecondary,
+.dateRangeBtnPrimary {
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.dateRangeBtnSecondary {
+  color: var(--text-secondary);
+  background: transparent;
+  border: 1px solid var(--border-default);
+}
+
+.dateRangeBtnSecondary:hover {
+  color: var(--text-primary);
+  background: var(--bg-hover);
+  border-color: var(--border-active);
+}
+
+.dateRangeBtnPrimary {
+  color: var(--text-on-accent);
+  background: var(--accent-primary);
+  border: 1px solid var(--accent-primary);
+}
+
+.dateRangeBtnPrimary:hover {
+  background: var(--accent-primary-hover);
+  border-color: var(--accent-primary-hover);
+}
+
+/* Speed control group */
+.speedGroup {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  flex-shrink: 0;
+  padding-left: var(--space-3);
+  border-left: 1px solid var(--border-subtle);
+}
+
+.speedBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  height: 32px;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: transparent;
+  border: 1px solid var(--border-default);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.speedBtn:hover {
+  color: var(--text-primary);
+  background: var(--bg-hover);
+  border-color: var(--border-active);
+}
+
+.speedBtn:active {
+  background: var(--bg-pressed);
+}
+
+.speedBtn:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+.speedBtn.active {
+  color: var(--accent-primary);
+  background: var(--accent-primary-muted);
+  border-color: var(--accent-primary);
+}
+
+/* Weather group - far right */
+.weatherGroup {
+  flex-shrink: 0;
+  padding-left: var(--space-3);
+  border-left: 1px solid var(--border-subtle);
+  position: relative;
+}
+
+.weatherCard {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-2);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  min-width: 100px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.weatherCard:hover {
+  background: var(--bg-hover);
+  border-color: var(--border-active);
+}
+
+.weatherCard:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+.weatherIcon {
+  font-size: 18px;
+  opacity: 0.8;
+}
+
+.weatherText {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.weatherTemp {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.weatherDesc {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  white-space: nowrap;
+  text-transform: capitalize;
+}
+
+/* Weather popup */
+.weatherPopup {
+  position: absolute;
+  bottom: calc(100% + var(--space-2));
+  right: 0;
+  z-index: 1000;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-elevated), var(--shadow-bezel);
+  padding: var(--space-3);
+  min-width: 220px;
+  animation: popupFadeIn var(--transition-fast);
+}
+
+.weatherPopupContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.weatherPopupHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.weatherPopupTitle {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-label);
+}
+
+.weatherPopupLocation {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.weatherPopupCurrent {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.weatherPopupIcon {
+  font-size: 32px;
+}
+
+.weatherPopupTemp {
+  font-family: var(--font-mono);
+  font-size: var(--text-xl);
+  font-weight: 600;
+  color: var(--text-primary);
+  display: block;
+}
+
+.weatherPopupCondition {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  display: block;
+  margin-top: 2px;
+}
+
+.weatherPopupDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+}
+
+.weatherPopupNote {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .wrap {
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+  }
+
+  .dateRangeBtn {
+    min-width: 140px;
+    padding: var(--space-1) var(--space-2);
+    font-size: var(--text-xs);
+  }
+
+  .speedBtn {
+    min-width: 38px;
+    height: 28px;
+    font-size: var(--text-xs);
+  }
+
+  .weatherCard {
+    min-width: 80px;
+    padding: var(--space-1);
+  }
+}
+
+@media (max-width: 768px) {
+  .wrap {
+    gap: var(--space-2);
+    padding: var(--space-2);
+  }
+
+  .playBtn {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+
+  .navBtn {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+
+  .dateRangeBtn {
+    min-width: 120px;
+    padding: var(--space-1) var(--space-2);
+    font-size: var(--text-xs);
+  }
+
+  .dateRangeBtn span:first-child {
+    display: none;
+  }
+
+  .speedBtn {
+    min-width: 34px;
+    height: 26px;
+    font-size: var(--text-xs);
+    padding: 0 var(--space-1);
+  }
+
+  .weatherCard {
+    min-width: auto;
+    padding: var(--space-1);
+  }
+
+  .weatherDesc {
+    display: none;
+  }
+
+  .tickLabel {
+    font-size: 10px;
+    padding: 1px 2px;
+  }
+
+  .currentTimeLabel {
+    font-size: var(--text-xs);
+  }
+
+  .currentTimeValue {
+    font-size: 10px;
+    padding: 1px 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .wrap {
+    gap: var(--space-1);
+    padding: var(--space-1);
+  }
+
+  .leftControls {
+    gap: var(--space-1);
+  }
+
+  .playBtn {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+
+  .navBtn {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+
+  .dateRangeBtn {
+    min-width: 100px;
+    padding: var(--space-1);
+  }
+
+  .speedBtn {
+    min-width: 30px;
+    height: 24px;
+    font-size: 10px;
+  }
+
+  .weatherCard {
+    padding: 4px 8px;
+  }
+
+  .weatherIcon {
+    font-size: 14px;
+  }
+
+  .weatherTemp {
+    font-size: var(--text-xs);
+  }
+}

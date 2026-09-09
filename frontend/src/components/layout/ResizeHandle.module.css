@@ -1,0 +1,44 @@
+.handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: transparent;
+  cursor: col-resize;
+  z-index: 10;
+  transition: background var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.handle:hover,
+.handle:focus {
+  background: var(--accent-primary);
+  outline: none;
+}
+
+.handle:active {
+  background: var(--accent-primary-hover);
+}
+
+.handle.right {
+  right: 0;
+}
+
+.handle.left {
+  left: 0;
+}
+
+/* Visual feedback when at min/max limits */
+.handle.atMin {
+  background: var(--status-warning);
+  box-shadow: 0 0 0 2px var(--bg-secondary), inset 0 0 0 1px var(--status-warning);
+}
+
+.handle.atMax {
+  background: var(--status-info);
+  box-shadow: 0 0 0 2px var(--bg-secondary), inset 0 0 0 1px var(--status-info);
+}
+
+.handle.atMin:hover,
+.handle.atMax:hover {
+  background: var(--accent-primary);
+}

@@ -1,0 +1,252 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "float_id": "INCOIS_ARGO_2901234",
+        "wmo_number": 2901234,
+        "status": "active",
+        "profile_count": 142,
+        "variables": ["temperature", "salinity", "pressure"],
+        "cycle_number": 36,
+        "depth_max": 2000.0,
+        "last_depth": 10.5,
+        "last_lat": 18.234,
+        "last_lon": 68.432
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [68.432, 18.234]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "float_id": "INCOIS_ARGO_2901567",
+        "wmo_number": 2901567,
+        "status": "active",
+        "profile_count": 98,
+        "variables": ["temperature", "salinity", "chlorophyll"],
+        "cycle_number": 24,
+        "depth_max": 2000.0,
+        "last_depth": 25.8,
+        "last_lat": 14.12,
+        "last_lon": 71.82
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [71.82, 14.12]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "float_id": "INCOIS_ARGO_2901890",
+        "wmo_number": 2901890,
+        "status": "active",
+        "profile_count": 165,
+        "variables": ["temperature", "salinity"],
+        "cycle_number": 42,
+        "depth_max": 2000.0,
+        "last_depth": 15.2,
+        "last_lat": 9.85,
+        "last_lon": 74.32
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [74.32, 9.85]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "float_id": "INCOIS_ARGO_2902123",
+        "wmo_number": 2902123,
+        "status": "active",
+        "profile_count": 210,
+        "variables": ["temperature", "salinity", "oxygen"],
+        "cycle_number": 52,
+        "depth_max": 2000.0,
+        "last_depth": 50.0,
+        "last_lat": 16.5,
+        "last_lon": 85.45
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [85.45, 16.5]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "float_id": "INCOIS_ARGO_2902456",
+        "wmo_number": 2902456,
+        "status": "active",
+        "profile_count": 188,
+        "variables": ["temperature", "salinity"],
+        "cycle_number": 47,
+        "depth_max": 2000.0,
+        "last_depth": 35.0,
+        "last_lat": 12.15,
+        "last_lon": 88.92
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [88.92, 12.15]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "float_id": "INCOIS_ARGO_2902789",
+        "wmo_number": 2902789,
+        "status": "active",
+        "profile_count": 76,
+        "variables": ["temperature", "salinity", "chlorophyll"],
+        "cycle_number": 19,
+        "depth_max": 2000.0,
+        "last_depth": 18.4,
+        "last_lat": 7.8,
+        "last_lon": 82.1
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [82.1, 7.8]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "float_id": "INCOIS_ARGO_2903012",
+        "wmo_number": 2903012,
+        "status": "active",
+        "profile_count": 115,
+        "variables": ["temperature", "salinity"],
+        "cycle_number": 29,
+        "depth_max": 2000.0,
+        "last_depth": 40.0,
+        "last_lat": 1.25,
+        "last_lon": 77.5
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.5, 1.25]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "float_id": "INCOIS_ARGO_2903345",
+        "wmo_number": 2903345,
+        "status": "active",
+        "profile_count": 89,
+        "variables": ["temperature", "salinity"],
+        "cycle_number": 22,
+        "depth_max": 2000.0,
+        "last_depth": 60.5,
+        "last_lat": -4.5,
+        "last_lon": 65.1
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [65.1, -4.5]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "float_id": "INCOIS_ARGO_2903678",
+        "wmo_number": 2903678,
+        "status": "active",
+        "profile_count": 134,
+        "variables": ["temperature", "salinity"],
+        "cycle_number": 33,
+        "depth_max": 2000.0,
+        "last_depth": 30.0,
+        "last_lat": -12.4,
+        "last_lon": 58.2
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [58.2, -12.4]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "float_id": "INCOIS_ARGO_2903901",
+        "wmo_number": 2903901,
+        "status": "active",
+        "profile_count": 150,
+        "variables": ["temperature", "salinity", "oxygen"],
+        "cycle_number": 38,
+        "depth_max": 2000.0,
+        "last_depth": 45.0,
+        "last_lat": -6.8,
+        "last_lon": 95.4
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [95.4, -6.8]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "float_id": "INCOIS_ARGO_2904234",
+        "wmo_number": 2904234,
+        "status": "active",
+        "profile_count": 204,
+        "variables": ["temperature", "salinity"],
+        "cycle_number": 51,
+        "depth_max": 2000.0,
+        "last_depth": 70.0,
+        "last_lat": -25.0,
+        "last_lon": 75.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [75.0, -25.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "float_id": "INCOIS_ARGO_2904567",
+        "wmo_number": 2904567,
+        "status": "active",
+        "profile_count": 160,
+        "variables": ["temperature", "salinity"],
+        "cycle_number": 40,
+        "depth_max": 2000.0,
+        "last_depth": 22.0,
+        "last_lat": -22.3,
+        "last_lon": 50.5
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [50.5, -22.3]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "float_id": "INCOIS_ARGO_2904890",
+        "wmo_number": 2904890,
+        "status": "active",
+        "profile_count": 140,
+        "variables": ["temperature", "salinity"],
+        "cycle_number": 35,
+        "depth_max": 2000.0,
+        "last_depth": 55.0,
+        "last_lat": -18.6,
+        "last_lon": 105.2
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [105.2, -18.6]
+      }
+    }
+  ]
+}

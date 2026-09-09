@@ -1,0 +1,8 @@
+.wrapper {
+  position: relative;
+  width: 100%;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+  overflow: visible;
+}
